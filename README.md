@@ -33,22 +33,23 @@ dotnet run
 Go to path /src/Corporate.Chat.Web.Client
 
 ```bash
-npm run dev
+npm install && npm run dev
 ```
 
 ## Built With
 
-* [docker](https://www.docker.com) - docker
-* [aspnetcore](https://docs.microsoft.com/pt-br/aspnet/core/) - aspnet core
-* [haproxy](http://www.haproxy.org) - haproxy
-* [mssql](https://www.microsoft.com/sql-server/sql-server-2017) - mssql linux (Developer License)
-* [redis](https://redis.io) - redis
-* [bootstrap](https://getbootstrap.com) - bootstrap
-* [signalr](https://dotnet.microsoft.com/apps/aspnet/real-time) - signalr
+* [docker](https://www.docker.com) - Docker
+* [aspnetcore](https://docs.microsoft.com/pt-br/aspnet/core/) - Aspnet Core
+* [haproxy](http://www.haproxy.org) - HAProxy
+* [mssql](https://www.microsoft.com/sql-server/sql-server-2017) - MSSQL Linux (Developer License)
+* [redis](https://redis.io) - Redis
+* [bootstrap](https://getbootstrap.com) - Bootstrap
+* [signalr](https://dotnet.microsoft.com/apps/aspnet/real-time) - SignalR
+* [NPM](https://www.npmjs.com) - SignalR
 
 ## Authors
 
-* **Vinícius Duarte Reis** - *Initial work* - [PurpleBooth](https://github.com/viniciusduartereis)
+* **Vinícius Duarte Reis** - *Initial work* - [viniciusduartereis](https://github.com/viniciusduartereis)
 
 See also the list of [contributors](https://github.com/viniciusduartereis/Corporate-Chat//contributors) who participated in this project.
 
