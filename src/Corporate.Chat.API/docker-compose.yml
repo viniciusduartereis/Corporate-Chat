@@ -1,0 +1,81 @@
+version: "3.7"
+services:
+  
+  mssql:
+    image: microsoft/mssql-server-linux:latest
+    container_name: mssql
+    hostname: mssql
+    environment:
+      - SA_PASSWORD=!Passw0rd!
+      - ACCEPT_EULA=Y
+    #  Known Issues - Mounting a volume does not work on Docker for Mac
+    #volumes:
+    #  - ~/storage/mssql:/var/opt/mssql
+    ports:
+      - "1433:1433"
+    network_mode: "bridge"
+
+  redis:
+    image: redis
+    container_name: redis
+    hostname: redis
+    volumes:
+      - "~/storage/redis:/data"
+    ports:
+      - 6379:6379
+    command: ["redis-server", "--appendonly", "yes"]
+    restart: always
+    network_mode: "bridge"
+
+
+  webapp1:
+    build: ./
+    #image: chat-webapp:3.1
+    container_name: webapp1
+    hostname: webapp1
+    environment:
+      - ASPNETCORE_HOSTNAME=webapp1
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - "8081:80"
+    network_mode: "bridge"
+    depends_on:
+      - redis
+      - mssql
+    links:
+      - redis:redis
+      - mssql:mssql
+  webapp2:
+    build: ./
+    #image: chat-webapp:3.1
+    container_name: webapp2
+    hostname: webapp2
+    environment:
+      - ASPNETCORE_HOSTNAME=webapp2
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - "8082:80"
+    network_mode: "bridge"
+    links:
+      - redis:redis
+      - mssql:mssql
+    depends_on:
+      - redis
+      - mssql
+
+  haproxy-webapp:
+    build:
+     context: .
+     dockerfile: DockerfileHAProxy
+    container_name: haproxy-webapp
+    hostname: haproxy-webapp
+    ports:
+      - 5000:80
+      - 20000:20000
+    network_mode: "bridge"
+    links:
+      - webapp1:webapp1
+      - webapp2:webapp2
+      - redis:redis
+      - mssql:mssql
+      

@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Corporate.Chat.API</name>
+    </assembly>
+    <members>
+        <member name="T:Corporate.Chat.API.Configurations.RouteConvention">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Corporate.Chat.API.Configurations.RouteConvention.#ctor(Microsoft.AspNetCore.Mvc.Routing.IRouteTemplateProvider)">
+            <summary>
+            
+            </summary>
+            <param name="routeTemplateProvider"></param>
+        </member>
+        <member name="M:Corporate.Chat.API.Configurations.RouteConvention.Apply(Microsoft.AspNetCore.Mvc.ApplicationModels.ApplicationModel)">
+            <summary>
+            
+            </summary>
+            <param name="application"></param>
+        </member>
+        <member name="T:Corporate.Chat.API.Configurations.MvcOptionsExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Corporate.Chat.API.Configurations.MvcOptionsExtensions.UseCentralRoutePrefix(Microsoft.AspNetCore.Mvc.MvcOptions,Microsoft.AspNetCore.Mvc.Routing.IRouteTemplateProvider)">
+            <summary>
+            
+            </summary>
+            <param name="opts"></param>
+            <param name="routeAttribute"></param>
+        </member>
+        <member name="T:Corporate.Chat.API.Configurations.SwaggerConfig">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Corporate.Chat.API.Configurations.SwaggerConfig.GetSwashbuckleApiInfo">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Corporate.Chat.API.Configurations.SwaggerConfig.GetVersion">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Corporate.Chat.API.Configurations.SwaggerConfig.GetApplicationName">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Corporate.Chat.API.Configurations.SwaggerConfig.GetApiXmlCommentsPath">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Corporate.Chat.API.Model.Message">
+            <summary>
+             Message Contract
+            </summary>
+        </member>
+        <member name="P:Corporate.Chat.API.Model.Message.MessageId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Corporate.Chat.API.Model.Message.UserChatId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Corporate.Chat.API.Model.Message.EventId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Corporate.Chat.API.Model.Message.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Corporate.Chat.API.Model.Message.Text">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Corporate.Chat.API.Model.Message.CreatedDate">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

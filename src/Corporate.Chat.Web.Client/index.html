@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chat Client</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <br>
+        <h2>Chat Client</h2>
+        <div>
+            <hr>
+        </div>
+        <form method="POST" action="/">
+            <div>
+                <span id="status" class="badge badge-secondary">Connection Status</span>
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="control-label" id="username"></label>
+                <input placeholder="type message.." class="form-control" type="text" name="message" id="message" />
+            </div>
+            <br />
+            <div>
+                <button class="btn btn-primary" type="button" id="send">
+                    Send
+                </button>
+            </div>
+        </form>
+        <br>
+        <hr>
+        <div>
+            <ul style="overflow: scroll; max-height: 550px" class="list-group" id="messages"></ul>
+        </div>
+    </div>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="node_modules/moment/min/moment-with-locales.js"></script>
+    <script src="node_modules/@aspnet/signalr/dist/browser/signalr.min.js"></script>
+    <script src="./script.js"></script>
+</body>
+
+</html>
