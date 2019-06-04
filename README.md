@@ -12,7 +12,7 @@ Example chat running on docker
 
 ## Running the tests on docker
 
-Go to path /src/Corporate.Chat.API
+Go to path `/src/Corporate.Chat.API`
 
 ```bash
 docker-compose build
@@ -24,13 +24,13 @@ docker-compose up -d
 
 Start clients
 
-Go to path /src/Corporate.Chat.Console.Client
+Go to path `/src/Corporate.Chat.Console.Client`
 
 ```bash
 dotnet run
 ```
 
-Go to path /src/Corporate.Chat.Web.Client
+Go to path `/src/Corporate.Chat.Web.Client`
 
 ```bash
 npm install && npm run dev
