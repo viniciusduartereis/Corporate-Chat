@@ -2,6 +2,9 @@
 
 Example chat running on docker
 
+[![Build status](https://ci.appveyor.com/api/projects/status/45b9jhkvirhpxfep/branch/master?svg=true)](https://ci.appveyor.com/project/viniciusduartereis/corporate-chat/branch/master)
+[![License](https://img.shields.io/github/license/viniciusduartereis/corporate-chat.svg)](LICENSE)
+
 ## Getting Started
 
 ### Prerequisites
@@ -55,7 +58,7 @@ See also the list of [contributors](https://github.com/viniciusduartereis/Corpor
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License
 
 ## Acknowledgments
 
