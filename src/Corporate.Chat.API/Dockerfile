@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.2-sdk AS builder
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS builder
 
 WORKDIR /src
 COPY . .
@@ -6,7 +6,7 @@ COPY . .
 RUN dotnet publish "Corporate.Chat.API.csproj" -c Release -o /out
 
 
-FROM microsoft/dotnet:2.2-aspnetcore-runtime AS final
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS final
 WORKDIR /app
 
 COPY --from=builder /out .

@@ -24,7 +24,7 @@ namespace Corporate.Chat.API.Context
 			var config = new ConfigurationBuilder()
 				.SetBasePath(_env.ContentRootPath)
 				.AddJsonFile($"appsettings.json")
-				.AddJsonFile($"appsettings.{_env.EnvironmentName}.json")
+				.AddJsonFile($"appsettings.{_env.EnvironmentName}.json", true)
 				.Build();
 
 			// define the database to use

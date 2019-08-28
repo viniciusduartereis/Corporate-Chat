@@ -50,7 +50,7 @@ namespace Corporate.Chat.Console.Client
                     System.Console.WriteLine($"Error on SendAsync: {ex.Message}");
                 }
             }
-            while (System.Console.ReadKey(true).Key != ConsoleKey.Escape);
+            while (System.Console.ReadKey(false).Key != ConsoleKey.Escape);
 
             await _hubConnection.DisposeAsync();
         }
@@ -80,6 +80,7 @@ namespace Corporate.Chat.Console.Client
             catch (Exception ex)
             {
                 System.Console.WriteLine($"Error on OnUserConnected: {ex.Message}");
+                isConnected = false;
             }
 
             _hubConnection.HandshakeTimeout = TimeSpan.FromSeconds(3);
@@ -95,7 +96,7 @@ namespace Corporate.Chat.Console.Client
             {
                 if (message != null)
                 {
-                    System.Console.WriteLine($"Received Message: {message.Name} Said: {message.Text}");
+                    System.Console.WriteLine($"Received Message -> {message.Name} said: {message.Text}");
                 }
             });
 
