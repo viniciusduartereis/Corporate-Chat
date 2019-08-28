@@ -29,8 +29,8 @@ services:
 
 
   webapp1:
-    #build: ./
-    image: chat-webapp:3.2
+    build: ./
+    #image: chat-webapp:3.2
     container_name: webapp1
     hostname: webapp1
     environment:
@@ -46,8 +46,8 @@ services:
       - redis:redis
       - mssql:mssql
   webapp2:
-    #build: ./
-    image: chat-webapp:3.2
+    build: ./
+    #image: chat-webapp:3.2
     container_name: webapp2
     hostname: webapp2
     environment:
