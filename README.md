@@ -3,7 +3,7 @@
 Example chat running on docker
 
 [![Build status](https://ci.appveyor.com/api/projects/status/45b9jhkvirhpxfep/branch/master?svg=true)](https://ci.appveyor.com/project/viniciusduartereis/corporate-chat/branch/master)
-[![License](https://img.shields.io/github/license/viniciusduartereis/corporate-chat.svg)](LICENSE)
+[[![License](https://img.shields.io/github/license/viniciusduartereis/corporate-chat.svg)](LICENSE)](https://img.shields.io/github/license/viniciusduartereis/corporate-chat)
 
 ## Getting Started
 
