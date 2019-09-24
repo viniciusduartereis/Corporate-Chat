@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: corporate-chat
+spec:
+  selector:
+    matchLabels:
+      app: corporate-chat
+  replicas: 2 
+  template: 
+    metadata:
+      labels:
+        app: corporate-chat
+    spec:
+      containers:
+      - name: corporate-chat
+        image: chat-webapp:3.3
+        imagePullPolicy: Never
+        env:
+        - name: ASPNETCORE_HOSTNAME
+          value: K8S
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: corporate-chat
+spec:
+ type: NodePort
+ selector:
+   app: corporate-chat
+ ports:
+   - name: client
+     protocol: TCP
+     port: 80
+     nodePort: 32080
+ selector:
+   app: corporate-chat

@@ -58,7 +58,7 @@ namespace Corporate.Chat.Console.Client
         private static async Task SetupSignalRHubAsync()
         {
             _hubConnection = new HubConnectionBuilder()
-                .WithUrl("http://localhost:5000/chat")
+                .WithUrl("http://localhost:32080/chat")
                 .ConfigureLogging(factory =>
                 {
                     factory.AddConsole();
