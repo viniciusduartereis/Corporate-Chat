@@ -33,6 +33,7 @@ export function ChatHook() {
     const [newMessage, setNewMessage] = useState('');
 
     const sendUserName = () => {
+
         if (connected) {
             hubConnection.invoke('onUserConnected', {
                 name: nick,
@@ -41,7 +42,6 @@ export function ChatHook() {
             toggle();
         }
     }
-
 
     const startConnection = async () => {
 
@@ -57,10 +57,12 @@ export function ChatHook() {
         }
 
         setHubconnection(hubConnect);
+        setConnected(true);
         console.log('Connection successful!');
     }
 
     const getUserName = () => {
+
         var nick = window.prompt('Type your nick:', '');
         while (!nick) {
             nick = window.prompt('Type your nick:', '');
@@ -69,22 +71,29 @@ export function ChatHook() {
         setNick(nick);
     }
 
+    const toggle = () => {
+        setShowMessage(!showMessage);
+    }
+
+    const sendMessage = (text) => {
+        const message = {
+            text: text,
+            name: nick
+        };
+
+        hubConnection.invoke('send', message)
+            .catch(err => console.error(err));
+    }
 
     useEffect(() => {
-        let cancel = false;
 
         if (!nick) {
             getUserName();
         }
 
-        return () => {
-            cancel = true;
-        }
-
     }, [nick, setNick])
 
     useEffect(() => {
-
 
         if (!connected) {
 
@@ -92,19 +101,21 @@ export function ChatHook() {
                 .then(() => {
                     console.log('Start');
                     setConnected(true);
-                    sendUserName();
                 }).catch((err) => {
                     console.log(err);
                 });
 
         }
 
-    }, [connected, setConnected, setHubconnection])
+        if (connected) {
+            sendUserName();
+        }
 
+    }, [connected])
 
     useEffect(() => {
 
-        if (hubConnection) {
+        if (hubConnection && connected) {
 
             hubConnection.on('receiveMessage', (message) => {
                 console.log(`receive message: ${JSON.stringify(message)}`);
@@ -127,23 +138,7 @@ export function ChatHook() {
             };
         }
 
-    }, [hubConnection, messages])
-
-
-
-    const toggle = () => {
-        setShowMessage(!showMessage);
-    }
-
-    const sendMessage = (text) => {
-        const message = {
-            text: text,
-            name: nick
-        };
-
-        hubConnection.invoke('send', message)
-            .catch(err => console.error(err));
-    }
+    }, [hubConnection, connected, messages])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -157,7 +152,6 @@ export function ChatHook() {
     const handleChange = (e) => {
         setNewMessage(e.target.value)
     }
-
 
     return (
         <div >
