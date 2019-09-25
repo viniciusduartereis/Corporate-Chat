@@ -32,7 +32,7 @@
 
     // Start the connection.
     let hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl('http://localhost:5000/chat')
+        .withUrl('http://localhost:32080/chat')
         .build();
 
     hubConnection.connection.onclose = (error) => {

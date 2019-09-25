@@ -20,7 +20,10 @@ import 'moment/locale/pt-br';
 Moment.globalFormat = 'L LTS';
 const urlChat = 'http://localhost:32080/chat';
 
-export class Chat extends React.Component {
+/**
+ *  version using Component
+ */
+export class ChatComponent extends React.Component {
 
 
     /**
@@ -67,7 +70,7 @@ export class Chat extends React.Component {
         };
 
         this.state.hubConnection.invoke('send', message)
-            .catch(err => console.error(err));;
+            .catch(err => console.error(err));
     }
 
     startConnection = async () => {
@@ -201,4 +204,4 @@ export class Chat extends React.Component {
     }
 }
 
-export default Chat;
+export default ChatComponent;
