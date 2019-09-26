@@ -8,11 +8,11 @@ import {
     ListGroup,
     Form,
     FormGroup,
-    Toast, ToastBody, ToastHeader,
     Container, Row, Col
 } from 'reactstrap';
 import { HubConnectionBuilder } from '@aspnet/signalr';
-import GetMessages from './GetMessages';
+import ListMessages from './ListMessages';
+import WelcomeToast from './WelcomeToast';
 
 
 const urlChat = 'http://localhost:32080/chat';
@@ -30,17 +30,9 @@ export function ChatHook() {
     const [showMessage, setShowMessage] = useState(false);
     const [newMessage, setNewMessage] = useState('');
     const [bindConnection, setBindConnection] = useState(false);
+    const [bindUsername, setBindUsername] = useState(false);
 
-    const sendUserName = () => {
 
-        if (connected) {
-            hubConnection.invoke('onUserConnected', {
-                name: nick,
-                text: ''
-            });
-            toggle();
-        }
-    }
 
     const startConnection = async () => {
 
@@ -90,11 +82,11 @@ export function ChatHook() {
             getUserName();
         }
 
-    }, [nick, setNick])
+    }, [nick])
 
     useEffect(() => {
 
-        if (!connected) {
+        if (!connected && !bindUsername) {
 
             startConnection()
                 .then(() => {
@@ -106,12 +98,21 @@ export function ChatHook() {
 
         }
 
-        if (connected) {
-            sendUserName();
+    }, [connected, bindUsername])
+
+
+    useEffect(() => {
+
+        if (connected && !bindUsername) {
+            hubConnection.invoke('onUserConnected', {
+                name: nick,
+                text: ''
+            });
+            setShowMessage(!showMessage);
+            setBindUsername(true);
         }
 
-    }, [connected])
-
+    }, [connected, bindUsername, hubConnection, nick, showMessage])
 
 
     useEffect(() => {
@@ -141,7 +142,7 @@ export function ChatHook() {
             setBindConnection(true);
         }
 
-    }, [hubConnection, connected, messages]);
+    }, [hubConnection, connected, messages, bindConnection]);
 
 
 
@@ -164,14 +165,7 @@ export function ChatHook() {
         <div >
             <Container className="container">
                 <div className="App-toast-div">
-                    <Row>
-                        <Col sm="12" md={{ size: 6, offset: 3 }}>
-                            <Toast className="App-toast" isOpen={showMessage}>
-                                <ToastHeader toggle={toggle}>Hi</ToastHeader>
-                                <ToastBody>Welcome, {nick}!</ToastBody>
-                            </Toast>
-                        </Col>
-                    </Row>
+                    <WelcomeToast nick={nick} showMessage={showMessage} toggle={toggle} />
                 </div>
                 <br />
                 <Row>
@@ -184,7 +178,7 @@ export function ChatHook() {
                 <Row>
                     <Col>
                         <ListGroup className="App-list">
-                            <GetMessages messages={messages} />
+                            <ListMessages messages={messages} />
                         </ListGroup>
                     </Col>
                 </Row>

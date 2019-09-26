@@ -2,13 +2,12 @@ import React from 'react';
 import {
     ListGroupItem,
 } from 'reactstrap';
+
 import Moment from 'react-moment';
-
 import 'moment/locale/pt-br';
-
 Moment.globalFormat = 'L LTS';
 
-function GetMessages({ messages }) {
+function ListMessages({ messages }) {
     return (
         messages.map((message, key) =>
             <ListGroupItem className="App-list-item" key={`App-list-item-${key}`}>
@@ -23,4 +22,4 @@ function GetMessages({ messages }) {
     )
 }
 
-export default GetMessages;
+export default ListMessages;
