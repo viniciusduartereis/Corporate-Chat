@@ -6,19 +6,17 @@ import {
     InputGroup,
     Badge,
     ListGroup,
-    ListGroupItem,
     Form,
     FormGroup,
     Toast, ToastBody, ToastHeader,
     Container, Row, Col
 } from 'reactstrap';
 import { HubConnectionBuilder } from '@aspnet/signalr';
+import GetMessages from './GetMessages';
 
-import Moment from 'react-moment';
-import 'moment/locale/pt-br';
 
-Moment.globalFormat = 'L LTS';
 const urlChat = 'http://localhost:32080/chat';
+
 
 /**
  *  version using Hooks
@@ -31,6 +29,7 @@ export function ChatHook() {
     const [connected, setConnected] = useState(false);
     const [showMessage, setShowMessage] = useState(false);
     const [newMessage, setNewMessage] = useState('');
+    const [bindConnection, setBindConnection] = useState(false);
 
     const sendUserName = () => {
 
@@ -113,32 +112,38 @@ export function ChatHook() {
 
     }, [connected])
 
+
+
     useEffect(() => {
 
-        if (hubConnection && connected) {
+        if (hubConnection && connected && !bindConnection) {
 
             hubConnection.on('receiveMessage', (message) => {
                 console.log(`receive message: ${JSON.stringify(message)}`);
-                setMessages([...messages, message]);
+                setMessages(messages => [...messages, message]);
             });
 
             hubConnection.on('userDisconnected', (message) => {
                 console.log(`user disconnected': ${JSON.stringify(message)}`);
-                setMessages([...messages, message]);
+                setMessages(messages => [...messages, message]);
             });
 
             hubConnection.on('userConnected', (message) => {
                 console.log(`user connected': ${JSON.stringify(message)}`);
-                setMessages([...messages, message]);
+                setMessages(messages => [...messages, message]);
             });
 
             hubConnection.connection.onclose = (error) => {
                 setConnected(false);
                 console.log(`disconnect: ${error.message}`);
             };
+
+            setBindConnection(true);
         }
 
-    }, [hubConnection, connected, messages])
+    }, [hubConnection, connected, messages]);
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -152,6 +157,8 @@ export function ChatHook() {
     const handleChange = (e) => {
         setNewMessage(e.target.value)
     }
+
+
 
     return (
         <div >
@@ -177,18 +184,7 @@ export function ChatHook() {
                 <Row>
                     <Col>
                         <ListGroup className="App-list">
-                            {
-                                messages.map(function (message, key) {
-                                    return <ListGroupItem className="App-list-item" key={key}>
-                                        <strong>
-                                            {message.name}</strong>:&nbsp;&nbsp;
-                                                {message.text}
-                                        <br />
-                                        <Moment className="datetime"
-                                            element="i" locale="pt-br">{message.createdDate}</Moment>
-                                    </ListGroupItem>
-                                })
-                            }
+                            <GetMessages messages={messages} />
                         </ListGroup>
                     </Col>
                 </Row>

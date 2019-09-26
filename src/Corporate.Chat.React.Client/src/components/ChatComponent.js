@@ -20,6 +20,7 @@ import 'moment/locale/pt-br';
 Moment.globalFormat = 'L LTS';
 const urlChat = 'http://localhost:32080/chat';
 
+
 /**
  *  version using Component
  */
@@ -46,6 +47,8 @@ export class ChatComponent extends React.Component {
 
 
     }
+
+    
 
     toggle() {
         this.setState({
