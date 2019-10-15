@@ -13,8 +13,9 @@ function ListMessages({ messages }) {
                     {messages.map((message, key) =>
                         <ListGroupItem className="App-list-item" key={`App-list-item-${key}`}>
                             <strong>
-                                {message.name}</strong>:&nbsp;&nbsp;
-                    {message.text}
+                                {message.name}
+                            </strong>:&nbsp;&nbsp;
+                            {message.text}
                             <br />
                             <Moment className="datetime"
                                 element="i" locale="pt-br">{message.createdDate}</Moment>

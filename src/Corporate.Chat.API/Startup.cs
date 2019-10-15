@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO.Compression;
 using System.Linq;
-using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Corporate.Chat.API.Configurations;
@@ -84,10 +83,10 @@ namespace Corporate.Chat.API
                 {
                     o.ConnectionFactory = async writer =>
                     {
-                        var config = new StackExchange.Redis.ConfigurationOptions
-                        {
-                            AbortOnConnectFail = false,
-                            ResolveDns = true
+                    var config = new StackExchange.Redis.ConfigurationOptions
+                    {
+                    AbortOnConnectFail = false,
+                    ResolveDns = true
                         };
 
                         config.EndPoints.Add(Configuration.GetConnectionString("Redis"), 6379);
@@ -153,7 +152,7 @@ namespace Corporate.Chat.API
 
             app.UseCors(policy =>
             {
-                policy.WithOrigins(Configuration.GetSection("Cors:Host").Value)
+                policy.WithOrigins(Configuration.GetSection("Cors:Host").AsEnumerable().Select(x => x.Value).ToArray())
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();

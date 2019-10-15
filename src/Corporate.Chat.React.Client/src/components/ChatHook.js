@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ListGroup, Container, Row, Col } from 'reactstrap';
+import { Container } from 'reactstrap';
 import { HubConnectionBuilder } from '@aspnet/signalr';
 
 import ListMessages from './ListMessages';
@@ -7,11 +7,11 @@ import WelcomeToast from './WelcomeToast';
 import StatusConnection from './StatusConnection';
 import FormChat from './FormChat';
 
-const urlChat = 'http://localhost:32080/chat';
+const urlChat = 'http://localhost:5000/chat';
 
 
 /**
- *  version using Hooks
+ *  using Hooks
  */
 export function ChatHook() {
 
@@ -33,14 +33,14 @@ export function ChatHook() {
 
         try {
             await hubConnect.start();
+            setHubconnection(hubConnect);
+            setConnected(true);
+            console.log('Connection successful!');
+
         } catch (err) {
             alert(err);
             setConnected(false);
         }
-
-        setHubconnection(hubConnect);
-        setConnected(true);
-        console.log('Connection successful!');
     }
 
     const getUserName = () => {
@@ -62,9 +62,11 @@ export function ChatHook() {
             text: text,
             name: nick
         };
-
-        hubConnection.invoke('send', message)
-            .catch(err => console.error(err));
+        
+        if (hubConnection && connected) {
+            hubConnection.invoke('send', message)
+                .catch(err => console.error(err));
+        }
     }
 
     useEffect(() => {
@@ -82,7 +84,6 @@ export function ChatHook() {
             startConnection()
                 .then(() => {
                     console.log('Start');
-                    setConnected(true);
                 }).catch((err) => {
                     console.log(err);
                 });
@@ -93,7 +94,7 @@ export function ChatHook() {
 
     useEffect(() => {
 
-        if (connected && !bindUsername) {
+        if (connected && !bindUsername && hubConnection) {
             hubConnection.invoke('onUserConnected', {
                 name: nick,
                 text: ''
