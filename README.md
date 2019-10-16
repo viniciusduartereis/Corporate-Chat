@@ -39,6 +39,12 @@ Go to path `/src/Corporate.Chat.Web.Client`
 npm install && npm run dev
 ```
 
+Go to path `/src/Corporate.Chat.React.Client`
+
+```bash
+npm install && npm start
+```
+
 ## Built With
 
 * [docker](https://www.docker.com) - Docker
@@ -48,7 +54,8 @@ npm install && npm run dev
 * [redis](https://redis.io) - Redis
 * [bootstrap](https://getbootstrap.com) - Bootstrap
 * [signalr](https://dotnet.microsoft.com/apps/aspnet/real-time) - SignalR
-* [NPM](https://www.npmjs.com) - SignalR
+* [NPM](https://www.npmjs.com) - NPM
+* [reactjs](https://create-react-app.dev/) - ReactJS
 
 ## Authors
 
