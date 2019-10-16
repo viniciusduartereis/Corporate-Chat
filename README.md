@@ -45,6 +45,11 @@ Go to path `/src/Corporate.Chat.React.Client`
 npm install && npm start
 ```
 
+To cleanup go to path `/src/Corporate.Chat.API`
+```
+docker-compose kill
+```
+
 ## Built With
 
 * [docker](https://www.docker.com) - Docker
