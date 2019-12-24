@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "XP.Corporate.Chat": {
+    "Corporate.Chat.API": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/values",
