@@ -1,9 +1,7 @@
 ﻿using System;
 using System.IO.Compression;
 using System.Linq;
-using System.Net.Mime;
 using System.Threading.Tasks;
-using Corporate.Chat.API.Configurations;
 using Corporate.Chat.API.Context;
 using Corporate.Chat.API.Hubs;
 using FluentValidation.AspNetCore;
@@ -17,9 +15,8 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
 
 namespace Corporate.Chat.API
@@ -38,36 +35,22 @@ namespace Corporate.Chat.API
         {
             services.AddOptions();
 
-            var serializeSettings = new JsonSerializerSettings()
-            {
-                Formatting = Formatting.Indented,
-                DateFormatHandling = DateFormatHandling.IsoDateFormat,
-                DateTimeZoneHandling = DateTimeZoneHandling.Utc,
-                DefaultValueHandling = DefaultValueHandling.Include,
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                NullValueHandling = NullValueHandling.Include,
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            };
+            services.AddControllers();
 
             services.AddMvc(config =>
                 {
-                    config.UseCentralRoutePrefix(new RouteAttribute($"api/{SwaggerConfig.GetVersion()}"));
 
                     config.Filters.Add(new ProducesAttribute("application/json"));
+                    //config.Filters.Add(new ConsumesAttribute("application/json"));
 
                 })
                 .AddFluentValidation()
                 .AddJsonOptions(x =>
                 {
-                    x.SerializerSettings.Formatting = Formatting.Indented;
-                    x.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
-                    x.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-                    x.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Include;
-                    x.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    x.SerializerSettings.NullValueHandling = NullValueHandling.Include;
-                    x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                    x.JsonSerializerOptions.WriteIndented = false;
+                    x.JsonSerializerOptions.PropertyNameCaseInsensitive = false;
+                    x.JsonSerializerOptions.IgnoreNullValues = false;
+                });
 
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
 
@@ -76,7 +59,9 @@ namespace Corporate.Chat.API
             services.AddSignalR()
                 .AddJsonProtocol(x =>
                 {
-                    x.PayloadSerializerSettings = serializeSettings;
+                    x.PayloadSerializerOptions.IgnoreNullValues = false;
+                    x.PayloadSerializerOptions.PropertyNameCaseInsensitive = false;
+                    x.PayloadSerializerOptions.WriteIndented = false;
                 })
                 .AddMessagePackProtocol()
                 .AddStackExchangeRedis(o =>
@@ -106,16 +91,6 @@ namespace Corporate.Chat.API
                     };
                 });
 
-            services.AddSwaggerGen(config =>
-            {
-                config.SwaggerDoc(SwaggerConfig.GetVersion(), SwaggerConfig.GetSwashbuckleApiInfo());
-                config.DescribeAllEnumsAsStrings();
-                config.DescribeStringEnumsInCamelCase();
-                config.UseReferencedDefinitionsForEnums();
-                config.IncludeXmlComments(SwaggerConfig.GetApiXmlCommentsPath());
-                config.EnableAnnotations();
-            });
-
             services.AddCors();
 
             services.AddEntityFrameworkSqlServer()
@@ -135,11 +110,18 @@ namespace Corporate.Chat.API
                 .AddSqlServer(Configuration.GetConnectionString("DefaultConnection"), name: "MSSQL")
                 .AddRedis(Configuration.GetConnectionString("Redis"), name: "REDIS");
 
-            services.AddHealthChecksUI();
+            services
+                .AddHealthChecksUI();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Chat API", Version = "v1" });
+                c.EnableAnnotations();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -152,35 +134,38 @@ namespace Corporate.Chat.API
 
             app.UseCors(policy =>
             {
-                policy.WithOrigins(Configuration.GetSection("Cors:Host").AsEnumerable().Select(x => x.Value).ToArray())
+                var origins = Configuration.GetSection("Cors:Host")
+                    .AsEnumerable()
+                    .Where(x => !string.IsNullOrEmpty(x.Value))
+                    .Select(x => x.Value).ToArray();
+
+                policy.WithOrigins(origins)
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();
             });
 
             app.UseDefaultFiles();
+
             app.UseStaticFiles();
 
             app.UseResponseCompression();
 
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<ChatHub>("/chat");
-            });
+            app.UseRouting();
 
-            app.UseSwagger(c =>
-            {
-                c.PreSerializeFilters.Add((swaggerDoc, httpReq) => swaggerDoc.Host = httpReq.Host.Value);
-            });
+            app.UseSwagger();
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint($"/swagger/{SwaggerConfig.GetVersion()}/swagger.json", SwaggerConfig.GetApplicationName());
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Chat API V1");
             });
 
             app.UseHttpsRedirection();
-            app.UseMvc();
 
+            // Dashboard health check UI
+            app.UseHealthChecksUI();
+
+            /*
             //Middlweare Health Check
             app.UseHealthChecks("/status",
                 new HealthCheckOptions()
@@ -209,23 +194,41 @@ namespace Corporate.Chat.API
                 Predicate = _ => true,
                     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
             });
-
-            // Dashboard health check UI
-            app.UseHealthChecksUI();
+            */
 
             // Ensure SQL Database Created
-            using(var context = app.ApplicationServices.GetService<ChatContext>())
+            using(var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            using(var context = serviceScope.ServiceProvider.GetService<ChatContext>())
             {
                 try
                 {
                     context.Database.EnsureCreated();
-                    context.Database.Migrate();
+                    if (context.Database.GetPendingMigrations().Any())
+                    {
+                        context.Database.Migrate();
+                    }
+                    context.SaveChanges();
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
             }
+
+            app.UseEndpoints((endpoints) =>
+            {
+                endpoints.MapHub<ChatHub>("/chat");
+                endpoints.MapControllers();
+
+                endpoints.MapHealthChecks("healthz", new HealthCheckOptions()
+                {
+                    Predicate = _ => true,
+                        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
+                endpoints.MapHealthChecksUI();
+                endpoints.MapDefaultControllerRoute();;
+
+            });
 
             app.Run(context =>
             {

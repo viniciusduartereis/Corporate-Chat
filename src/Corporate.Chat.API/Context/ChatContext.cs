@@ -11,9 +11,9 @@ namespace Corporate.Chat.API.Context
 {
 	public class ChatContext : DbContext
 	{
-		private readonly IHostingEnvironment _env;
+		private readonly IWebHostEnvironment _env;
 
-		public ChatContext(IHostingEnvironment env)
+		public ChatContext(IWebHostEnvironment env)
 		{
 			_env = env;
 		}

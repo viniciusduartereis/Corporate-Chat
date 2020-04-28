@@ -1,21 +1,20 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace Corporate.Chat.API
 {
-	public class Program
+    public class Program
 	{
 		public static void Main(string[] args)
 		{
-			CreateWebHostBuilder(args).Build().Run();
+			CreateHostBuilder(args).Build().Run();
 		}
 
-		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-			WebHost.CreateDefaultBuilder(args)
-				.UseStartup<Startup>()
-				.ConfigureKestrel((context, options) =>
-				{
-					// Set properties and call methods on options
-				}).UseDefaultServiceProvider(options => options.ValidateScopes = false);
+		public static IHostBuilder CreateHostBuilder(string[] args) =>
+			Host.CreateDefaultBuilder(args)
+			.ConfigureWebHostDefaults(webBuilder =>
+			{
+				webBuilder.UseStartup<Startup>();
+			});
 	}
 }

@@ -15,7 +15,7 @@ Example chat running on docker and k8s
 
 ## Running the tests on docker
 
-Go to path `/src/Corporate.Chat.API`
+Go to root path
 
 ```bash
 docker-compose build
@@ -25,7 +25,15 @@ docker-compose build
 docker-compose up -d
 ```
 
-Start clients
+Browser
+
+* ReactApp Client `http://localhost:3000`
+
+* Swagger API `http://localhost:5000`
+
+
+
+Start others clients
 
 Go to path `/src/Corporate.Chat.Console.Client`
 
@@ -45,8 +53,9 @@ Go to path `/src/Corporate.Chat.React.Client`
 npm install && npm start
 ```
 
-To cleanup go to path `/src/Corporate.Chat.API`
+To cleanup go to root path
 ```
+docker-compose down
 docker-compose kill
 ```
 
@@ -75,4 +84,4 @@ This project is licensed under the [MIT license](LICENSE)
 ## Acknowledgments
 
 * Squad Back & Experience RV
-* XP Investimentos
+* XP Inc
