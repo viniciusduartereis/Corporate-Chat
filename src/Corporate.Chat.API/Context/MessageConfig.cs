@@ -11,13 +11,12 @@ namespace Corporate.Chat.API.Context
             modelBuilder.ToTable("MESSAGE");
 
             modelBuilder.HasKey(o => o.MessageId)
-            .ForSqlServerIsClustered(true);
+            .IsClustered(true);
 
             modelBuilder
                 .Property(s => s.MessageId)
                 .HasColumnName("MESSAGE_ID")
-                .HasDefaultValue(0)
-                .UseSqlServerIdentityColumn()
+                .UseIdentityColumn()
                 .IsRequired();
 
             modelBuilder

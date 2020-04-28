@@ -27,9 +27,9 @@ services:
     restart: always
     network_mode: "bridge"
 
-
   webapp1:
-    build: ./
+    build: 
+      context: ./src/Corporate.Chat.API
     #image: viniciusreis/corporate-chat:3.0
     container_name: webapp1
     hostname: webapp1
@@ -46,7 +46,8 @@ services:
       - redis:redis
       - mssql:mssql
   webapp2:
-    build: ./
+    build: 
+      context: ./src/Corporate.Chat.API
     #image: viniciusreis/corporate-chat:3.0
     container_name: webapp2
     hostname: webapp2
@@ -63,9 +64,21 @@ services:
       - redis
       - mssql
 
+  reactapp:
+    build: 
+      context: ./src/Corporate.Chat.React.Client
+    container_name: reactapp
+    hostname: reactapp
+    ports: 
+      - "3000:80"
+    network_mode: "bridge"
+    depends_on: 
+      - webapp1
+      - webapp2
+
   haproxy-webapp:
     build:
-     context: .
+     context: ./src/Corporate.Chat.API
      dockerfile: DockerfileHAProxy
     container_name: haproxy-webapp
     hostname: haproxy-webapp
