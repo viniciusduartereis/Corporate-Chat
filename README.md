@@ -47,12 +47,6 @@ Go to path `/src/Corporate.Chat.Web.Client`
 npm install && npm run dev
 ```
 
-Go to path `/src/Corporate.Chat.React.Client`
-
-```bash
-npm install && npm start
-```
-
 To cleanup go to root path
 ```
 docker-compose down
