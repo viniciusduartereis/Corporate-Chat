@@ -1,6 +1,6 @@
 # Corporate Chat
 
-Example chat running on docker and k8s
+Example chat running on docker and k8s w/ aspnetcore
 
 [![Build status](https://ci.appveyor.com/api/projects/status/45b9jhkvirhpxfep/branch/master?svg=true)](https://ci.appveyor.com/project/viniciusduartereis/corporate-chat/branch/master)
 [![License](https://img.shields.io/github/license/viniciusduartereis/corporate-chat)](LICENSE)
@@ -77,5 +77,5 @@ This project is licensed under the [MIT license](LICENSE)
 
 ## Acknowledgments
 
-* Squad Back & Experience RV
+* Squad XP & Experience RV
 * XP Inc
