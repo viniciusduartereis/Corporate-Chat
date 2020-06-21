@@ -2,6 +2,7 @@
 
 Example chat running on docker and k8s w/ aspnetcore
 
+![.NET Core](https://github.com/viniciusduartereis/Corporate-Chat/workflows/.NET%20Core/badge.svg?branch=master)
 [![Build status](https://ci.appveyor.com/api/projects/status/45b9jhkvirhpxfep/branch/master?svg=true)](https://ci.appveyor.com/project/viniciusduartereis/corporate-chat/branch/master)
 [![License](https://img.shields.io/github/license/viniciusduartereis/corporate-chat)](LICENSE)
 
