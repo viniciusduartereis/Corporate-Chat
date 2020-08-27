@@ -1,7 +1,10 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS builder
 
 WORKDIR /src
+
 COPY . .
+
+WORKDIR /src/Corporate.Chat.API
 
 RUN dotnet publish "Corporate.Chat.API.csproj" -c Release -o /out
 
