@@ -75,8 +75,3 @@ See also the list of [contributors](https://github.com/viniciusduartereis/Corpor
 ## License
 
 This project is licensed under the [MIT license](LICENSE)
-
-## Acknowledgments
-
-* Squad XP & Experience RV
-* XP Inc
