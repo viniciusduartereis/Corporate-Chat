@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.106
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corporate.Chat.API", "src\Corporate.Chat.API\Corporate.Chat.API.csproj", "{6BE22E3D-2BEE-44A7-AF92-B13FA557FE0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corporate.Chat.API", "src\backend\Corporate.Chat.API\Corporate.Chat.API.csproj", "{6BE22E3D-2BEE-44A7-AF92-B13FA557FE0D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corporate.Chat.Console.Client", "src\Corporate.Chat.Console.Client\Corporate.Chat.Console.Client.csproj", "{C0FE9007-C30C-47E0-9E4E-3FA861D9AD0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corporate.Chat.Console.Client", "src\backend\Corporate.Chat.Console.Client\Corporate.Chat.Console.Client.csproj", "{C0FE9007-C30C-47E0-9E4E-3FA861D9AD0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
