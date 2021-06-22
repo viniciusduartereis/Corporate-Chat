@@ -29,7 +29,7 @@ services:
 
   webapp1:
     build: 
-      context: ./src/Corporate.Chat.API
+      context: ./src/backend/
     #image: viniciusreis/corporate-chat:3.0
     container_name: webapp1
     hostname: webapp1
@@ -47,7 +47,7 @@ services:
       - mssql:mssql
   webapp2:
     build: 
-      context: ./src/Corporate.Chat.API
+      context: ./src/backend/
     #image: viniciusreis/corporate-chat:3.0
     container_name: webapp2
     hostname: webapp2
@@ -66,7 +66,7 @@ services:
 
   reactapp:
     build: 
-      context: ./src/Corporate.Chat.React.Client
+      context: ./src/frontend/Corporate.Chat.React.Client
     container_name: reactapp
     hostname: reactapp
     ports: 
@@ -78,7 +78,7 @@ services:
 
   haproxy-webapp:
     build:
-     context: ./src/Corporate.Chat.API
+     context: ./src/backend/
      dockerfile: DockerfileHAProxy
     container_name: haproxy-webapp
     hostname: haproxy-webapp

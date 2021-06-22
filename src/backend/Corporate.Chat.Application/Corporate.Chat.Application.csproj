@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Corporate.Chat.Domain/Corporate.Chat.Domain.csproj" />
+    <ProjectReference Include="..\Corporate.Chat.Infra.Data/Corporate.Chat.Infra.Data.csproj" />
+  </ItemGroup>
+
+</Project>
