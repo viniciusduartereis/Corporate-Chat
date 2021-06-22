@@ -2,7 +2,7 @@ version: 1.0.{build}
 image: Visual Studio 2019
 dotnet_csproj:
   patch: true
-  file: '**\*.csproj'
+  file: 'src\backend\**\*.csproj'
   version: '{version}'
   package_version: '{version}'
 before_build:
